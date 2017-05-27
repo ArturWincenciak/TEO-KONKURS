@@ -130,11 +130,11 @@ public class TryingEvent : CtiEvent
 
 ## Opis projektu w Visual Studio
 
-Projekt składa się z 
-- aplikacji konsolowej `Benchmark` którą odpalamy w celu wykonania testu wydajności
-- biblioteki `Common` w której zdefiniowane klasy obiektów, które chcemy uzyskać w wyniku parsowania
-- bibliotek `Parsers_v_*_*`, które zawierają kolejne moje próby implementacji parsowania
-- biblioteki `Parsers.UnitTests` z testami jednostkowymi wszystkich dotychczasowych wersji parserów zdefiniowanych w bibliotekach `Parsers_v_*_*`
+Projekt składa się z:
+- aplikacji konsolowej `Benchmark` którą odpalamy w celu wykonania testu wydajności,
+- biblioteki `Common` w której zdefiniowane klasy obiektów, które chcemy uzyskać w wyniku parsowania,
+- bibliotek `Parsers_v_*_*`, które zawierają kolejne moje próby implementacji parsowania,
+- biblioteki `Parsers.UnitTests` z testami jednostkowymi wszystkich dotychczasowych wersji parserów zdefiniowanych w bibliotekach `Parsers_v_*_*`.
 
 ## Jak w łatwy i szybki sposób dodać własną wersję parsera?
 

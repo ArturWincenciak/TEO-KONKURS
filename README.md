@@ -545,3 +545,189 @@ private int FindDelimiter()
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
 Test_v_0_6_transformator	| 5.172 ms	| 0.0941 ms	| 0.0786 ms	| 5.149 ms	| 0.14	| 2018.75	| 6.29 MB
+
+### Parser_v_0_7
+
+W tej wersji na w klasie `CtiParser` na początku metody `public CtiEvent Parse(string input)` pozbyłem się tych dwóch linijek kodu:
+```c#
+int endOfFirstLineIndex = input.IndexOf(CtiProtocol.ENDL, StringComparison.Ordinal);
+string firstLine = input.Substring(0, endOfFirstLineIndex);
+```
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_7_transformator	| 3.780 ms	| 0.0101 ms	| 0.0090 ms	| 3.781 ms	| 0.1	| 1992.7083	| 6.1 MB
+
+### Parser_v_0_8
+
+W tej wersji w klasie `CtiTransformator`, w metodzie `public void OnNext(ByteString value)` pozbyłęm się linijki kodu która nic nie wnosiła po za tym, że zżerała zasoby procesora:
+
+```c#
+string inputEvent = buffer.Substring(0, delimiterIdx + 2);
+```
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_8_transformator	| 3.306 ms	| 0.0317 ms	| 0.0281 ms	| 3.297 ms	| 0.09	| 1403.9063	| 4.33 MB
+
+### Parser_v_0_9
+
+W tej wersji optymalizacji poddałem metodę `private int FindDelimiter()` w klasie `CtiTransformator`. Zmniejszyłem czterokrotnie ilość iteracji w pętli `for` wykorzystując specyficzną cechę ciągu znaków `\r\n\r\n` będących delimiterem. Wystarczy iterować co cztery i będziemy mieć pewność, że trafimy na ten delimiter.
+
+Było:
+```c#
+private int FindDelimiter()
+{
+    for (int i = 0; i < buffer.Length - 3; i++)
+    {
+        if (buffer[i] == CtiProtocol.CARRIAGE_RETURN &&
+            buffer[i + 1] == CtiProtocol.LINE_FEED &&
+            buffer[i + 2] == CtiProtocol.CARRIAGE_RETURN &&
+            buffer[i + 3] == CtiProtocol.LINE_FEED)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+```
+Teraz jest:
+```c#
+private int FindDelimiter()
+{
+    int bufferLength = buffer.Length;
+    for (int i = 0; i < bufferLength - 2; i += 4)
+    {
+        switch (buffer[i])
+        {
+            case CtiProtocol.CARRIAGE_RETURN:
+            {
+                if (buffer[i + CtiProtocol.SHIFT_FOR_DELIMITER] == CtiProtocol.CARRIAGE_RETURN && bufferLength > i + 3)
+                {
+                    return i;
+                }
+                if (buffer[i - CtiProtocol.SHIFT_FOR_DELIMITER] == CtiProtocol.CARRIAGE_RETURN && bufferLength > i + 3)
+                {
+                    return i - 2;
+                }
+                break;
+            }
+            case CtiProtocol.LINE_FEED:
+            {
+                if (buffer[i + CtiProtocol.SHIFT_FOR_DELIMITER] == CtiProtocol.LINE_FEED)
+                {
+                    return i - 1;
+                }
+                if (buffer[i - CtiProtocol.SHIFT_FOR_DELIMITER] == CtiProtocol.LINE_FEED)
+                {
+                    return i - 3;
+                }
+                break;
+            }
+        }
+    }
+
+    return -1;
+}
+```
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_9_transformator	| 2.445 ms	| 0.0088 ms	| 0.0063 ms	| 2.446 ms	| 0.07	| 1430.1031	| 4.33 MB
+
+### Parser_v_0_10
+
+Zastosowałem ten sam typ optymalizacji co w wersji poprzedniej (`Parser_v_0_9`) ale tym razem w metodzie `private CtiEvent ParseTryingEvent(string input)` klasy `CtiParser`.
+
+Było:
+```c#
+private CtiEvent ParseTryingEvent(string input)
+{
+    // ...
+    for (int i = idx; ; i++)
+    {
+        if (input[i + 1] == CtiProtocol.CARRIAGE_RETURN && input[i + 2] == CtiProtocol.LINE_FEED)
+        {
+            e.DestinationCallerId = input.Substring(idx, i - idx + 1);
+            idx = i;
+            break;
+        }
+    }
+    // ...
+}
+```
+Teraz jest:
+```c#
+private CtiEvent ParseTryingEvent(string input)
+{
+    // ...
+    for (int i = idx; ; i += 2)
+    {
+        switch (input[i])
+        {
+            case CtiProtocol.CARRIAGE_RETURN:
+            {
+                e.SourceCallerId = input.Substring(idx, i - idx);
+                idx = i - 1;
+                goto LEAVE_FOR_1;
+            }
+            case CtiProtocol.LINE_FEED:
+            {
+                e.SourceCallerId = input.Substring(idx, i - idx - 1);
+                idx = i - 2;
+                goto LEAVE_FOR_1;
+            }
+        }
+    }
+
+LEAVE_FOR_1:
+    // ...
+}
+```
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_10_transformator	| 2.513 ms	| 0.0562 ms	| 0.1479 ms	| 2.432 ms	| 0.07	| 1401.8229	| 4.33 MB
+
+### Parser_v_0_11
+
+Tutaj zamieniłem obiekty typu `char` na `byte` w klasie `CtiProtocol`.
+
+Było:
+```c#
+public static class CtiProtocol
+{
+    public const char T = 'T';
+    public const char R = 'R';
+    public const char D = 'D';
+    public const char H = 'H';
+    public const char a = 'a';
+    public const char o = 'o';
+    public const char L = 'L';
+    public const char P = 'P';
+    public const char U = 'U';
+    public const char S = 'S';
+    // ...
+}
+```
+
+Teraz jest:
+```c#
+public static class CtiProtocol
+{
+    public const byte T = 84;
+    public const byte R = 82;
+    public const byte D = 68;
+    public const byte H = 72;
+    public const byte a = 97;
+    public const byte o = 111;
+    public const byte L = 76;
+    public const byte P = 80;
+    public const byte U = 85;
+    public const byte S = 83;
+    // ...
+}
+```
+
+Wydaność się nie poprawiła - jak widać.
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_11_transformator	| 2.715 ms	| 0.0788 ms	| 0.2322 ms	| 2.671 ms	| 0.07	| 1434.5815	| 4.33 MB

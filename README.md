@@ -380,4 +380,51 @@ Następnie wywoływana jest metoda `Parse` na obiekcie `eventParser`. Wynik zwr�
  
 W metodzie `Parse` klsasy `CtiParser` mamy kolejne testy `if`, które wybierają jakiego typu zdarzenie należy prasować oraz dokonują tego parsowania. Parsowanie wykonywane jest za pomocą metody prywatnej `Parse`, której podajemy nazwę właściwości (`string`) oraz wartość (`string`), która będzie parsowana. Jako wynik zwraca wartość danej właściwości odszukanej w tym stringu.
 
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_1_transformator | 37.452 ms | 0.6758 ms | 0.5644 ms | 37.193 ms | 1.00 | 4946.4286 | 16.31 MB
 
+### Parser_v_0_2
+
+W kolejnej wersji, klasie `Parser` zamieniłem wyrażenia regularne na zwykłe porónanie obiektów typu `string`. 
+ 
+Było:
+```#
+if (Regex.IsMatch(input, $@"\A{CtiProtocol.PropertyType.EVENT}: {CtiProtocol.EventType.SESSION_CLOSE}")) 
+{ 
+ //...
+}
+```
+Teraz jest:
+```c#
+if (firstLine == CtiProtocol.PropertyType.EVENT + ": " + CtiProtocol.EventType.DIAL)
+{ 
+ //...
+}
+```
+
+Ten prosty zabieg pozwolił poprawić wydajność kilkukrotnie. Nie wiem co mnie podkusiło żeby użyć `regex` ale tutaj widać jak one są wolne.
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_2_transformator | 11.333 ms | 0.1685 ms | 0.1576 ms | 11.258 ms | 0.30 | 2417.7083 | 7.69 MB
+
+### Parser_v_0_3
+
+W kolejnej wersji zamieniłem if’y na switch’a. Teraz jest:
+
+```c#
+switch (firstLine)
+{
+ case CtiProtocol.PropertyType.EVENT + ": " + CtiProtocol.EventType.DIAL:
+ { 
+  //...
+ }
+}
+```
+
+Wynik kolejnego testu mówi, że faktycznie switch jest szybszy.
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_3_transformator	| 9.865 ms	| 0.0744 ms	| 0.0696 ms	| 9.853 ms	| 0.26	| 1835.4167	| 5.91 MB

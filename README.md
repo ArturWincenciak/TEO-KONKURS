@@ -31,6 +31,8 @@ Będziecie mogli również zobaczyć jak się konfiguruje i odpala `DotNetBenchm
  
 Na tego, któremu uda się napisać szybszą wersję parsera oprócz otrzymania nagród rzeczowych zostanie odkryty uznaniem w naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
 
+> Obecny poziom wydajności dla projektu produkcyjnego już dawno jest zadowalający. Tutaj dalsze optymalizacji mają charakter rozrywki.
+
 ## Jak taki ciąg bajtów wygląda, jakie ma cechy? Jakie obiekty chcemy uzyskać w wyniku parsowania?
 
 Wspomniany ciąg bajtów po zamianie na `string` wygląda przykładowo tak:
@@ -362,5 +364,20 @@ Test_v_4_0_transformator	| 4.965 ms	| 0.0165 ms	| 0.0137 ms	| 4.963 ms	| 0.13	| 
 Test_v_4_1_transformator	| 5.408 ms	| 0.1041 ms	| 0.1198 ms	| 5.428 ms	| 0.14	| 939.0625	| 3.04 MB
 Test_v_4_2_transformator	| 3.911 ms	| 0.0166 ms	| 0.0155 ms	| 3.909 ms	| 0.1	| 742.7083	| 2.35 MB
 
+## Opis kolejnych wersji parsera
 
-//TODO: ciąg dalszy nastąpi ...
+Z pierwszej wersji nie jestem zbytnio dumny. Jest to pierwsza wersja, która uknuła mi się w głowie, którą byłem wstanie bardzo szybko zaimplementować. Wersja ta ma wiele błędów pod względem wydajności i nie tylko. Implementując kolejne wersje sukcesywnie ulepszyłem te wersje mając przy tym dużą frajdę z uruchamiania `DotNetBenchmarka`.
+ 
+O.K. To po tym wstępie zaczynamy. Przechodzimy do projektu `Parser_v_0_1`.
+
+### Parser_v_0_1
+
+Klasa, która wykonuje buforowanie i parsowanie to klasa `CtiTransformator`. Klas ta spełnia interfejs `ISubject<ByteString, CtiEvent>` co oznacza że jest obserwatorem oraz klasą obserwowaną. Obserwuje pojawienie się nowej porcji danych w postaci obiektu `ByteString` i równocześnie posiada obserwatora, któremu przekazuje kolejno parsowane obiekty `CtiEvent`. Czyli jest to taka transformacja jednej nieskończonej kolekcji danych na inną nieskończoną kolekcję danych.
+ 
+Implementacja metody `OnNext` jest silnikiem tej klasy. Na początku zapamiętuje nowe dane dodając je do już zapamiętanych podczas poprzednich wywołań tej metody. Następnie w pętli `while(true)`, w jest wykonywane parsowanie kolejnych porcji bajtów tak długo jak długo w tych bajtach znajdują się poprawne całe porcje wiadomości umożliwiające wygenerowanie nowego obiekty typu `CtiEvent`. W każdym obiegu pętli jest sprawdzane czy odnaleziono ciąg znaków `\r\n\r\n` oznaczający koniec wiadomości. Sprawdzanie to odbywa się w linii `if (TryGetLastIndexOfEvent(out lastIndex))`. 
+ 
+Następnie wywoływana jest metoda `Parse` na obiekcie `eventParser`. Wynik zwrócony z tej metody przekazywany jest obserwatorowi po czym następuje czyszczenie bufora z bajtów, które zostały przed momentem parsowane.
+ 
+W metodzie `Parse` klsasy `CtiParser` mamy kolejne testy `if`, które wybierają jakiego typu zdarzenie należy prasować oraz dokonują tego parsowania. Parsowanie wykonywane jest za pomocą metody prywatnej `Parse`, której podajemy nazwę właściwości (`string`) oraz wartość (`string`), która będzie parsowana. Jako wynik zwraca wartość danej właściwości odszukanej w tym stringu.
+
+

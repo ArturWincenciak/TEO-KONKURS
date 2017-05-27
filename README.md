@@ -386,7 +386,7 @@ Test_v_0_1_transformator | 37.452 ms | 0.6758 ms | 0.5644 ms | 37.193 ms | 1.00 
 
 ### Parser_v_0_2
 
-W kolejnej wersji, klasie `Parser` zamieniłem wyrażenia regularne na zwykłe porónanie obiektów typu `string`. 
+W kolejnej wersji, klasie `Parser` zamieniłem wyrażenia regularne na zwykłe porównanie obiektów typu `string`. 
  
 Było:
 ```#
@@ -411,7 +411,7 @@ Test_v_0_2_transformator | 11.333 ms | 0.1685 ms | 0.1576 ms | 11.258 ms | 0.30 
 
 ### Parser_v_0_3
 
-W kolejnej wersji zamieniłem if’y na switch’a. Teraz jest:
+W kolejnej wersji zamieniłem `if`’y na switch’a. Teraz jest:
 
 ```c#
 switch (firstLine)
@@ -423,8 +423,84 @@ switch (firstLine)
 }
 ```
 
-Wynik kolejnego testu mówi, że faktycznie switch jest szybszy.
+Wynik kolejnego testu mówi, że faktycznie `switch` jest szybszy.
 
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
 Test_v_0_3_transformator	| 9.865 ms	| 0.0744 ms	| 0.0696 ms	| 9.853 ms	| 0.26	| 1835.4167	| 5.91 MB
+
+### Parser_v_0_4
+
+W tej wersji względem poprzedniej postanowiłem się upewnić czy zmiana kolejności `case` w `switch` nie ma znaczenia :). Stwierdzam że nie.
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_4_transformator	| 9.834 ms	| 0.0937 ms	| 0.0876 ms	| 9.806 ms	| 0.26	| 1843.75	| 5.91 MB
+
+### Parser_v_0_5
+
+W tej wersji zrezygnowałem z prywatnej metody `private static string Parse(string input, string valueType)` w klasie `CtiParser`. Metoda ta miała tą zaletę, że mogła być wykorzystana do dowolnego typu wiadomości jednak była niewydajna. Napisałem nowę wersję `private CtiEvent ParseTryingEvent(string input)`, która wykorzystuje specyficzne cechy wiadomości typu `Trying`. Jedna z głównych różnic jest taka, że w tej metodzie tylko raz iteruję się przez cały `string`, a nie za każdym razem, dla każdej właściwości z osobna - jak to miało w wersji poprzedniej.
+
+Było:
+```c#
+private static string Parse(string input, string valueType)
+{
+    int firstIndexOfType = input.IndexOf(valueType + ":", StringComparison.Ordinal);
+    if (firstIndexOfType == -1)
+    {
+        return string.Empty;
+    }
+
+    int lastIndexOfType = firstIndexOfType + valueType.Length;
+    int firstIndexOfValue = lastIndexOfType + 2;
+    int lastIndexOfValue = input.IndexOf(value: '\r', startIndex: firstIndexOfValue);
+    int lengthOfValue = lastIndexOfValue - firstIndexOfValue;
+    string result = input.Substring(firstIndexOfValue, lengthOfValue);
+    return result;
+}
+```
+
+Teraz jest:
+
+```c#
+private CtiEvent ParseTryingEvent(string input)
+{
+    TryingEvent e = new TryingEvent();
+
+    int idx = CtiProtocol.FIRST_TRYING_LINE_LEN + CtiProtocol.SESSION_ID_PROP_LEN + CtiProtocol.COLON_AND_SPACE_LEN;
+    int limit = idx + CtiProtocol.SESSION_ID_VALU_LEN;
+    e.SessionId = input.Substring(idx, CtiProtocol.SESSION_ID_VALU_LEN);
+
+    idx = limit + CtiProtocol.END_LINE_LEN + CtiProtocol.SOURCE_CALLER_ID_PROP_LEN + CtiProtocol.COLON_AND_SPACE_LEN;
+    for (int i = idx; ; i++)
+    {
+        if (input[i + 1] == CtiProtocol.CARRIAGE_RETURN && input[i + 2] == CtiProtocol.LINE_FEED)
+        {
+            e.SourceCallerId = input.Substring(idx, i - idx + 1);
+            idx = i;
+            break;
+        }
+    }
+
+    idx += CtiProtocol.END_LINE_LEN + CtiProtocol.DESTINATION_CALLER_ID_PROP_LEN + CtiProtocol.COLON_AND_SPACE_LEN + 1;
+    for (int i = idx; ; i++)
+    {
+        if (input[i + 1] == CtiProtocol.CARRIAGE_RETURN && input[i + 2] == CtiProtocol.LINE_FEED)
+        {
+            e.DestinationCallerId = input.Substring(idx, i - idx + 1);
+            idx = i;
+            break;
+        }
+    }
+
+    idx += CtiProtocol.END_LINE_LEN + CtiProtocol.CALL_START_DATE_PROP_LEN + CtiProtocol.COLON_AND_SPACE_LEN + 1;
+    limit = idx + CtiProtocol.CALL_START_DATE_VALU_LEN;
+    e.CallStartDate = input.Substring(idx, limit - idx);
+
+    idx = limit + CtiProtocol.END_LINE_LEN + CtiProtocol.TIMESTAMP_PROP_LEN + CtiProtocol.COLON_AND_SPACE_LEN;
+    limit = idx + CtiProtocol.TIMESTAMP_VALU_LEN;
+    e.Timestamp = input.Substring(idx, limit - idx);
+
+    return e;
+}
+```

@@ -189,13 +189,42 @@ public class TestCasesStore
   new v_4_0.CtiTransformator(new v_4_0.ByteBuffer(), new v_4_0.CtiParser()),
   new v_4_1.CtiTransformator(new v_4_1.ByteBuffer(), new v_4_1.CtiParser()),
   new v_4_2.CtiTransformator(new v_4_2.ByteBuffer(), new v_4_2.CtiParser()),
-  new v_5_0.CtiTransformator(new v_5_0.ByteBuffer(), new v_5_0.CtiParser()),
+  new v_5_0.CtiTransformator(new v_5_0.ByteBuffer(), new v_5_0.CtiParser()), // <- the new
  };
  // ...
 }
 ```
 10. Odpalamy testy jednostkowe. Wszystko powinno być zielone. Od tego momentu możemy modyfikować naszą nową wersję parsera i sprawdzać czy testy nadal są zielone.
 11. Dodajemy naszą nową wersję parsera do testów wydajności. Otwieramy klasę `CtiTransformatorTester` i dodajemy nową prywatną właściwość analogicznie jak w linii 39 poniżej.
+```c#
+public class CtiTransformatorTester
+ {
+ private static int iterationsCount;
+ private static ByteString[] input;
+ private static NullCtiEventConsumer consumer;
 
+ private static v_0_1.CtiTransformator v_0_1_transformator;
+ private static v_0_2.CtiTransformator v_0_2_transformator;
+ private static v_0_3.CtiTransformator v_0_3_transformator;
+ private static v_0_4.CtiTransformator v_0_4_transformator;
+ private static v_0_5.CtiTransformator v_0_5_transformator;
+ private static v_0_6.CtiTransformator v_0_6_transformator;
+ private static v_0_7.CtiTransformator v_0_7_transformator;
+ private static v_0_8.CtiTransformator v_0_8_transformator;
+ private static v_0_9.CtiTransformator v_0_9_transformator;
+ private static v_0_10.CtiTransformator v_0_10_transformator;
+ private static v_0_11.CtiTransformator v_0_11_transformator;
+ private static v_0_12.CtiTransformator v_0_12_transformator;
+ private static v_1_1.CtiTransformator v_1_1_transformator;
+ private static v_1_2.CtiTransformator v_1_2_transformator;
+ private static v_2_0.CtiTransformator v_2_0_transformator;
+ private static v_3_0.CtiTransformator v_3_0_transformator;
+ private static v_4_0.CtiTransformator v_4_0_transformator;
+ private static v_4_1.CtiTransformator v_4_1_transformator;
+ private static v_4_2.CtiTransformator v_4_2_transformator;
+ private static v_5_0.CtiTransformator v_5_0_transformator; // <- the new
+ // ...
+}
+```
 
 

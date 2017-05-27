@@ -791,7 +791,13 @@ Test_v_0_12_transformator	| 2.552 ms	| 0.0116 ms	| 0.0097 ms	| 2.552 ms	| 0.07	|
 
 ### Parser_v_1_1 & Parser_v_1_2
 
-//todo
+Są to dwie najszybsze wersje. Są identyczne. W wersji `v_1_2` jest dodane łapanie wyjątków co w ogóle nie wpływa na wydajność dopóki wyjątki się nie pojawiają. 
+ 
+Wersja ta posiada oddzielone odpowiedzialności związane z buforowaniem oraz parsowaniem. Intefejs `ICtiParser` zastopiłem interfejsem `ISubject<string, CtiEvent>`. Uzyskałem dzięki temu efekt przepływania danych, które w trakcie tego przepływu zmieniają się na inny, oczekiwany ciąg danych.
+ 
+Klasa `ByteBuffer` nasłuchuje kolejnych porcji danych, które przychodzą z socket. Gdy ten `ByteBuffer` uzbiera odpowiednią porcję danych powiadamia o tym `Parser`a, który nasłuchuje kolejnych elementów, które `ByteBuffer` wyprodukuje. `Parser` dokonuje zamiany obiektów `string` na `CtiEvent` i powiadamia swojego obserwatora o pojawieniu się kolejnego elementu. Tym kolejnym elementem jest ten nasz oczekiwany wynik parsowania.
+ 
+Co ciekawe wraz z poprawą czytelności oraz odseparowaniem odpowiedzialności wzrosła również wydajność.
 
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---

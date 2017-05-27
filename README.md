@@ -323,3 +323,18 @@ public static void Test_v_5_0_transformator()
 14. Dokonujemy optymalizacji w naszej nowej wersji parsera. Gdy jesteśmy pewni, że jest szybciej kompilujemy projekt w trybie `release`, odpalamy aplikacje konsolową będącą wynikiem kompilacji projektu `Benchmark` i sprawdzamy wyniki. 
 15. Wyniki pojawiają się w folderze `.\TeoVincentParser\Benchmark\bin\Release\BenchmarkDotNet.Artifacts\results`.
 16. Jeśli chcemy odpalić te same testy wiele razy, odejść od komputera i wrócić po wyników za kilka godzin, to jest to możliwe ponieważ  wyniki testów są kopiowane do folderu z historią wyników `.\TeoVincentParser\Benchmark\bin\Release\TestResultsHistory`. Wystarczy w metodzie `Main` w klasie `Program` ustawić odpowiednią wartość w pętli (np: `for (int i = 0; i < 10; i++)`).
+
+## Interfejs parsera
+
+//TODO ...
+
+## Dotychczasowe wyniki
+
+Obecnie najszybsza wersja parsera to `Parser_v_1_2`. Ta wersję (do póki nie pojawi się szybsza) należy traktować jako wzorcową podczas porównywania z własnymi wynikami. Wersję tą można sobie skopiować i próbować optymalizować, lub wogóle tam nie zaglądać aby się nie niepotrzebnie inspirować tym rozwiązaniem.
+
+Tak się składa, że równocześnie wersja ta w bardzo fajny sposób enkapsuluje odpowiedzialności w klasach - jest wydajnie i SOLID. Można tutaj zauważyć podejście reaktywne w którym mamy nieskończoną kolekcję danych, które przepływając przez ByteBuffer oraz CtiParser tranformują do innej nieskończonej kolekcji danych.
+
+> Muszę dodać że może pojawić się lepsza wersja - czego sobie i Wam życzę. Będzie ekstra setka wiśniówki za taką implementację.
+
+Poniżej tabela z testów kolejnych wersji.
+

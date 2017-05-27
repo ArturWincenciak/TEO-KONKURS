@@ -806,7 +806,7 @@ Test_v_1_2_transformator	| 2.425 ms	| 0.0472 ms	| 0.0442 ms	| 2.411 ms	| 0.06	| 
 
 ### Parser_v_2_0
 
-//todo
+W tej wersji dokonałem karkołomnego wyczynu - z-inlajnowałem cały algorytm do jednej metody. Po prostu sieka jakaś - przy tym nie uzyskałem poprawy wydajności.
 
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
@@ -814,7 +814,9 @@ Test_v_2_0_transformator	| 3.019 ms	| 0.0598 ms	| 0.1093 ms	| 2.966 ms	| 0.08	| 
 
 ### Parser_v_3_0
 
-//todo
+Wersja ta jest praktycznie identyczna z wersją Parser_1_2. Różnica tkwi w tym, że zamiast używać zwykłego gołego obiektu typu `string` do użyłem `StringBuilder`. Naczytałem się, że w tego typu sytuacjach `StringBuilder` jest szybszy od `string` więc powiedziałem - sprawdzam. Okazało się, że wcale szybszy nie jest. Zużywa mniej pamięci ale szybszy nie jest. To nie jest pierwsza sytuacja gdy sprawdziłem czy na pewno jest szybszy i kolejny raz mi wyszło, że nie. 
+
+Jeśli ktoś to potrafi wytłumaczyć to dostaje jedną setkę wiśniówki ode mnie.
 
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
@@ -822,7 +824,9 @@ Test_v_3_0_transformator	| 3.426 ms	| 0.0382 ms	| 0.0357 ms	| 3.413 ms	| 0.09	| 
 
 ### Parser_v_4_0 & Parser_v_4_1 & Parser_v_4_2
 
-//todo
+W tej wersji na własną rękę postanowiłem zarządzać pamięcią aby zmniejszyć ilość pracy jaką musi wykonać GC. W tej wersji jest Najmniej alokowanej pamięci ze wszystkich wersji ale czas wykonania jest dużo większy. 
+
+Jeśli ktoś pociągnie ten koncept i doprowadzi do takiego stanu, że uzyska najlepszy wynik to otrzyma dodatkowo setkę wiśniówki.
 
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
@@ -830,3 +834,4 @@ Test_v_4_0_transformator	| 4.965 ms	| 0.0165 ms	| 0.0137 ms	| 4.963 ms	| 0.13	| 
 Test_v_4_1_transformator	| 5.408 ms	| 0.1041 ms	| 0.1198 ms	| 5.428 ms	| 0.14	| 939.0625	| 3.04 MB
 Test_v_4_2_transformator	| 3.911 ms	| 0.0166 ms	| 0.0155 ms	| 3.909 ms	| 0.1	| 742.7083	| 2.35 MB
 
+> ### To już koniec. Jeśli coś źle opisałem, lub nie jasno, lub macie pytania to zakłądajcie `Issue` lub rubcie `pull request`. 

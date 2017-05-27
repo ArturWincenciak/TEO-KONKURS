@@ -195,10 +195,10 @@ public class TestCasesStore
 }
 ```
 10. Odpalamy testy jednostkowe. Wszystko powinno być zielone. Od tego momentu możemy modyfikować naszą nową wersję parsera i sprawdzać czy testy nadal są zielone.
-11. Dodajemy naszą nową wersję parsera do testów wydajności. Otwieramy klasę `CtiTransformatorTester` i dodajemy nową prywatną właściwość analogicznie jak w linii 39 poniżej.
+11. Dodajemy naszą nową wersję parsera do testów wydajności. Otwieramy klasę `CtiTransformatorTester` i dodajemy nową prywatną właściwość analogicznie jak dla innych wersji parsera.
 ```c#
 public class CtiTransformatorTester
- {
+{
  private static int iterationsCount;
  private static ByteString[] input;
  private static NullCtiEventConsumer consumer;
@@ -226,5 +226,100 @@ public class CtiTransformatorTester
  // ...
 }
 ```
+12. W metodzie `SetupData` w klasie `CtiTransformatorTester' tworzymy instancję naszego parsera analogicznie jak dla innych wersji parsera.
+```c#
+[Setup]
+public void SetupData()
+{
+ iterationsCount = 1000;
+ input = new[]
+ {
+  oneEventInOnePart,
+  oneEventInTwoParts[0],
+  oneEventInTwoParts[1],
+  twoEventsInOnePart,
+  oneEventInThreeParts[0],
+  oneEventInThreeParts[1],
+  oneEventInThreeParts[2]
+ };
 
+ consumer = new NullCtiEventConsumer();
 
+ v_0_1_transformator = new v_0_1.CtiTransformator(new v_0_1.CtiParser());
+ v_0_1_transformator.Subscribe(consumer);
+
+ v_0_2_transformator = new v_0_2.CtiTransformator(new v_0_2.CtiParser());
+ v_0_2_transformator.Subscribe(consumer);
+
+ v_0_3_transformator = new v_0_3.CtiTransformator(new v_0_3.CtiParser());
+ v_0_3_transformator.Subscribe(consumer);
+
+ v_0_4_transformator = new v_0_4.CtiTransformator(new v_0_4.CtiParser());
+ v_0_4_transformator.Subscribe(consumer);
+
+ v_0_5_transformator = new v_0_5.CtiTransformator(new v_0_5.CtiParser());
+ v_0_5_transformator.Subscribe(consumer);
+
+ v_0_6_transformator = new v_0_6.CtiTransformator(new v_0_6.CtiParser());
+ v_0_6_transformator.Subscribe(consumer);
+
+ v_0_7_transformator = new v_0_7.CtiTransformator(new v_0_7.CtiParser());
+ v_0_7_transformator.Subscribe(consumer);
+
+ v_0_8_transformator = new v_0_8.CtiTransformator(new v_0_8.CtiParser());
+ v_0_8_transformator.Subscribe(consumer);
+
+ v_0_9_transformator = new v_0_9.CtiTransformator(new v_0_9.CtiParser());
+ v_0_9_transformator.Subscribe(consumer);
+
+ v_0_10_transformator = new v_0_10.CtiTransformator(new v_0_10.CtiParser());
+ v_0_10_transformator.Subscribe(consumer);
+
+ v_0_11_transformator = new v_0_11.CtiTransformator(new v_0_11.CtiParser());
+ v_0_11_transformator.Subscribe(consumer);
+
+ v_0_12_transformator = new v_0_12.CtiTransformator(new v_0_12.CtiParser());
+ v_0_12_transformator.Subscribe(consumer);
+
+ v_1_1_transformator = new v_1_1.CtiTransformator(new v_1_1.ByteBuffer(), new v_1_1.CtiParser());
+ v_1_1_transformator.Subscribe(consumer);
+
+ v_1_2_transformator = new v_1_2.CtiTransformator(new v_1_2.ByteBuffer(), new v_1_2.CtiParser());
+ v_1_2_transformator.Subscribe(consumer);
+
+ v_2_0_transformator = new v_2_0.CtiTransformator();
+ v_2_0_transformator.Subscribe(consumer);
+
+ v_3_0_transformator = new v_3_0.CtiTransformator(new v_3_0.ByteBuffer(), new v_3_0.CtiParser());
+ v_3_0_transformator.Subscribe(consumer);
+
+ v_4_0_transformator = new v_4_0.CtiTransformator(new v_4_0.ByteBuffer(), new v_4_0.CtiParser());
+ v_4_0_transformator.Subscribe(consumer);
+
+ v_4_1_transformator = new v_4_1.CtiTransformator(new v_4_1.ByteBuffer(), new v_4_1.CtiParser());
+ v_4_1_transformator.Subscribe(consumer);
+
+ v_4_2_transformator = new v_4_2.CtiTransformator(new v_4_2.ByteBuffer(), new v_4_2.CtiParser());
+ v_4_2_transformator.Subscribe(consumer);
+
+ v_5_0_transformator = new v_5_0.CtiTransformator(new v_5_0.ByteBuffer(), new v_5_0.CtiParser()); // <- the new
+ v_5_0_transformator.Subscribe(consumer); // <- the new
+}
+```
+13. W klasie `CtiTransformatorTester' definiujemy nową metodę, która będzie nowym przypadkiem testowym dla testów wydajności analogicznie jak dla innych wersji parsera.
+```c#
+[Benchmark]
+public static void Test_v_5_0_transformator()
+{
+ for (int i = 0; i < iterationsCount; i++)
+ {
+  foreach (ByteString inp in input)
+  {
+   v_5_0_transformator.OnNext(inp);
+  }
+ }
+}
+```
+14. Dokonujemy optymalizacji w naszej nowej wersji parsera. Gdy jesteśmy pewni, że jest szybciej kompilujemy projekt w trybie `release`, odpalamy aplikacje konsolową będącą wynikiem kompilacji projektu `Benchmark` i sprawdzamy wyniki. 
+15. Wyniki pojawiają się w folderze `.\TeoVincentParser\Benchmark\bin\Release\BenchmarkDotNet.Artifacts\results`.
+16. Jeśli chcemy odpalić te same testy wiele razy, odejść od komputera i wrócić po wyników za kilka godzin, to jest to możliwe ponieważ  wyniki testów są kopiowane do folderu z historią wyników `.\TeoVincentParser\Benchmark\bin\Release\TestResultsHistory`. Wystarczy w metodzie `Main` w klasie `Program` ustawić odpowiednią wartość w pętli (np: `for (int i = 0; i < 10; i++)`).

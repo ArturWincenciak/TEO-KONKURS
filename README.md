@@ -341,6 +341,16 @@ Obecnie najszybszą wersja parsera jest `Parser_v_1_2`. Tą wersję (dopóki nie
 Poniżej tabela z testów kolejnych wersji. 
  
 > To są przykładowe wyniki. Więcej wyników znajdziecie we wspomnianej historii wyników.
+
+```
+BenchmarkDotNet=v0.10.5, OS=Windows 10.0.15063
+Processor=Intel Core i7-4710MQ CPU 2.50GHz (Haswell), ProcessorCount=8
+Frequency=2435781 Hz, Resolution=410.5459 ns, Timer=TSC
+  [Host]            : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.7.2098.0
+  LegacyJit-Clr-X86 : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.7.2098.0
+Job=LegacyJit-Clr-X86  Jit=LegacyJit  Platform=X86  
+Runtime=Clr 
+```
  
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---

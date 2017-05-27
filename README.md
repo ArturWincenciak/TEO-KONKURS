@@ -459,9 +459,7 @@ private static string Parse(string input, string valueType)
     return result;
 }
 ```
-
 Teraz jest:
-
 ```c#
 private CtiEvent ParseTryingEvent(string input)
 {
@@ -504,3 +502,46 @@ private CtiEvent ParseTryingEvent(string input)
     return e;
 }
 ```
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_5_transformator	| 5.602 ms	| 0.1288 ms	| 0.1378 ms	| 5.541 ms	| 0.15	| 1554.1667	| 4.88 MB
+
+### Parser_v_0_6
+
+Tym razem optymalizacji podałem klasę `CtiTransformator`. Z profilowania aplikacji za pomocą `dotTrace` wyszło mi, że bardzo wolna jest metoda `TryGetLastIndexOfEvent`, a dokłądnie najwolniejszą jest linijka `endOfEventIndex = buffer.IndexOf(CtiProtocol.DELIMITER, StringComparison.Ordinal)`.
+```c#
+private bool TryGetLastIndexOfEvent(out int endOfEventIndex)
+{
+    endOfEventIndex = buffer.IndexOf(CtiProtocol.DELIMITER, StringComparison.Ordinal);
+    if (endOfEventIndex == -1)
+    {
+        return false;
+    }
+
+    endOfEventIndex += CtiProtocol.DELIMITER.Length;
+    return true;
+}
+```
+Napisałem więc własną wersję znadowania ciągu znaków `CtiProtocol.DELIMITER` iterując się po obiekcie `string` za pomocą pętli `for`. Teraz jest:
+```c#
+private int FindDelimiter()
+{
+    for (int i = 0; i < buffer.Length - 3; i++)
+    {
+        if (buffer[i] == CtiProtocol.CARRIAGE_RETURN &&
+            buffer[i + 1] == CtiProtocol.LINE_FEED &&
+            buffer[i + 2] == CtiProtocol.CARRIAGE_RETURN &&
+            buffer[i + 3] == CtiProtocol.LINE_FEED)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+```
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_6_transformator	| 5.172 ms	| 0.0941 ms	| 0.0786 ms	| 5.149 ms	| 0.14	| 2018.75	| 6.29 MB

@@ -330,7 +330,9 @@ public static void Test_v_5_0_transformator()
 
 ## Dotychczasowe wyniki
 
-**Obecnie najszybszą wersja parsera jest `Parser_v_1_2`. Tą wersję (do póki nie pojawi się szybsza) należy traktować jako wzorcową podczas porównywania z własnymi wynikami.** Wersję tą można skopiować i optymalizować, lub wogóle tam nie zaglądać aby się nie niepotrzebnie inspirować tym rozwiązaniem.
+**Obecnie najszybszą wersja parsera jest `Parser_v_1_2`. Tą wersję (do póki nie pojawi się szybsza) należy traktować jako wzorcową podczas porównywania z własnymi wynikami.** 
+
+Wersję tą można skopiować i optymalizować, lub wogóle tam nie zaglądać aby się nie niepotrzebnie inspirować tym rozwiązaniem.
 
 > Tak się składa, że równocześnie wersja ta w bardzo fajny sposób enkapsuluje odpowiedzialności w klasach - jest zarazem wydajnie i SOLID. Można tutaj zauważyć podejście reaktywne, w którym mamy nieskończoną kolekcję danych, które przepływając przez ByteBuffer oraz CtiParser tranformują do innej nieskończonej kolekcji danych.
 
@@ -338,3 +340,6 @@ public static void Test_v_5_0_transformator()
 
 Poniżej tabela z testów kolejnych wersji.
 
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_1_transformator | 37.452 ms | 0.6758 ms | 0.5644 ms | 37.193 ms | 1.00 | 4946.4286 | 16.31 MB

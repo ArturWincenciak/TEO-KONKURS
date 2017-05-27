@@ -731,3 +731,95 @@ Wydaność się nie poprawiła - jak widać.
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
 Test_v_0_11_transformator	| 2.715 ms	| 0.0788 ms	| 0.2322 ms	| 2.671 ms	| 0.07	| 1434.5815	| 4.33 MB
+
+### Parser_v_0_12
+
+W tej wersji postanowiłem w klasie `CtiParser` w metodzie `private CtiEvent ParseTryingEvent(string input)` wydzielić kod w celu ponownego użycia (bez straty na wydajności).
+
+Ta nowa metoda to:
+```c#
+private static int WithEndLineFound(int idx, string input, Action<string> onFoundPropertyValue)
+{
+    for (int i = idx; ; i += 2)
+    {
+        switch ((byte)input[i])
+        {
+            case CtiProtocol.CARRIAGE_RETURN:
+                {
+                    onFoundPropertyValue(input.Substring(idx, i - idx));
+                    idx = i - 1;
+                    goto LEAVE_FOR_1;
+                }
+            case CtiProtocol.LINE_FEED:
+                {
+                    onFoundPropertyValue(input.Substring(idx, i - idx - 1));
+                    idx = i - 2;
+                    goto LEAVE_FOR_1;
+                }
+        }
+    }
+
+LEAVE_FOR_1:
+    return idx;
+}
+```
+Jej użycie jest w metodzie: `ParseTryingEvent` co jak sądze zwiększyło czytelność tej metody. Teraz ona wygląda tak:
+```c#
+private CtiEvent ParseTryingEvent(string input)
+{
+    TryingEvent e = new TryingEvent();
+
+    e.SessionId = input.Substring(CtiProtocol.SESSION_ID_IDX_SHIFT, CtiProtocol.SESSION_ID_VALU_LEN);
+
+    int idx = WithEndLineFound(CtiProtocol.SOURCE_CALLER_ID_IDX_SHIFT, input, value => e.SourceCallerId = value);
+    idx = WithEndLineFound(idx += CtiProtocol.DESTINATION_CALLER_ID_SHIFT, input, value => e.DestinationCallerId = value);
+
+    idx += CtiProtocol.CALL_START_DATE_SHIFT;
+    int limit = idx + CtiProtocol.CALL_START_DATE_VALU_LEN;
+    e.CallStartDate = input.Substring(idx, limit - idx);
+
+    idx = limit + CtiProtocol.TIMESTAMP_SHIFT;
+    limit = idx + CtiProtocol.TIMESTAMP_VALU_LEN;
+    e.Timestamp = input.Substring(idx, limit - idx);
+
+    return e;
+}
+```
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_0_12_transformator	| 2.552 ms	| 0.0116 ms	| 0.0097 ms	| 2.552 ms	| 0.07	| 1518.75	| 4.69 MB
+
+### Parser_v_1_1 & Parser_v_1_2
+
+//todo
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_1_1_transformator	| 2.445 ms	| 0.0641 ms	| 0.1250 ms	| 2.387 ms	| 0.07	| 1401.8229	| 4.33 MB
+Test_v_1_2_transformator	| 2.425 ms	| 0.0472 ms	| 0.0442 ms	| 2.411 ms	| 0.06	| 1401.8229	| 4.33 MB
+
+### Parser_v_2_0
+
+//todo
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_2_0_transformator	| 3.019 ms	| 0.0598 ms	| 0.1093 ms	| 2.966 ms	| 0.08	| 1409.3339	| 4.33 MB
+
+### Parser_v_3_0
+
+//todo
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_3_0_transformator	| 3.426 ms	| 0.0382 ms	| 0.0357 ms	| 3.413 ms	| 0.09	| 1108.8542	| 3.46 MB
+
+### Parser_v_4_0 & Parser_v_4_1 & Parser_v_4_2
+
+//todo
+
+Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
+--- | --- | --- | --- | --- |--- | --- | ---
+Test_v_4_0_transformator	| 4.965 ms	| 0.0165 ms	| 0.0137 ms	| 4.963 ms	| 0.13	| 932.8125	| 3.04 MB
+Test_v_4_1_transformator	| 5.408 ms	| 0.1041 ms	| 0.1198 ms	| 5.428 ms	| 0.14	| 939.0625	| 3.04 MB
+Test_v_4_2_transformator	| 3.911 ms	| 0.0166 ms	| 0.0155 ms	| 3.909 ms	| 0.1	| 742.7083	| 2.35 MB

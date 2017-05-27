@@ -128,3 +128,6 @@ public class TryingEvent : CtiEvent
 }
 ```
 
+## Opis projektu w Visual Studio
+
+

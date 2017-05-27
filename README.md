@@ -113,18 +113,18 @@ Ważną cechą jest to żę bajty spływają w losowej ilości. Pojedyncza porcj
  
 W wyniku parsowania chcemy uzyskać instancję obiektu klasy `TryingEvent`, typu `CtiEvent`.
 
-```
+```c#
 public abstract class CtiEvent
 {
-public string SessionId { get; set; }
-public string Timestamp { get; set; }
+ public string SessionId { get; set; }
+ public string Timestamp { get; set; }
 }
  
 public class TryingEvent : CtiEvent
 {
-public string SourceCallerId { get; set; }
-public string DestinationCallerId { get; set; }
-public string CallStartDate { get; set; }
+ public string SourceCallerId { get; set; }
+ public string DestinationCallerId { get; set; }
+ public string CallStartDate { get; set; }
 }
 ```
 

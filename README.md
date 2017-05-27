@@ -328,8 +328,19 @@ public static void Test_v_5_0_transformator()
  
 ## Interfejs parsera
  
-//TODO ...
+Jedyny interface jaki należy zaimplementować to: `ISubject<ByteString, CtiEvent>`. 
+```c#
+public class YourClass : ISubject<ByteString, CtiEvent>
+{
+	// … todo ...
+}
+```
+`CtiEvent` jest już wyjaśniony wcześniej. Co to takiego `ByteString`? Jest to obiekt zdefiniowany w `Akka.NET/IO`. Obiekt ten wynika z faktu, że używam klienta socket  z `Akka.NET/IO`. Cechą tego klienta jest to że kolejne porcje danych zapakowane są w typ `ByteString`. Pod spodem tego obiektu jest zwykła tablica bajtów.
  
+Polecam sobie sprawdzić jakie metody oferuje ten typ. Widać tutaj w jaki sposób operuje się na niezmiennych kolekcjach obiektów. Kątem oka widziałem podobne podejście w Erlangu. Może umiejętne użycie tego obiektu jest kluczem do uzyskania najlepszej wydajności.
+ 
+> Ze względu, że klient socketów pochodzi z `Akka.NET/IO` odpada możliwość użycia `Protobuff` ponieważ potrzebuje on dostęp do `Stream`, więc musiałbym podpiąć się bezpośrednio pod socket lub musiałbym na piechotę z obiektów `ByteString` odtwarzać taki `Stream` aby potem móc wywołać metodę `ParsWithDelimiter` - co na pewno nie byłoby wydajne. 
+
 ## Dotychczasowe wyniki
  
 Obecnie najszybszą wersja parsera jest `Parser_v_1_2`. Tą wersję (dopóki nie pojawi się szybsza) należy traktować jako wzorcową podczas porównywania z własnymi wynikami. Wersję tą można skopiować i optymalizować, lub wogóle tam nie zaglądać aby się nie niepotrzebnie inspirować tym rozwiązaniem.

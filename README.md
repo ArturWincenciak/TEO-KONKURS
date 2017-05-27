@@ -160,5 +160,42 @@ Projekt składa się z:
 3. Wchodzimy do folderu `Parser_v_5_0` i zmieniamy nazwę pliku projektu `Parser_v_1_2.csproj` na `Parser_v_5_0.csproj`.
 4. Wracamy do Visual Studio oraz dodajemy do folderu `Parser` istniejący projekt (`Add -> Existing Projekt -> Parser_v_5_0.csproj`).
 5. Odpalamy właściwości projektu `Parser_v_5_0` i zmieniamy `Assembly name` z wartości `Parser_v_1_2` na warstość `Parser_v_5_0` oraz zmieniamy `Default namespace` z wartości `v_1_2` na `v_5_0`.
+6. Musimy teraz poprawić `namespace` we wszystkich plikach w projekcie `Parser_5_0`. Zamieniamy `namespace v_1_2` na `namespace v_5_0`.
+7. Dodajemy referencję do biblioteki `Parser_v_5_0` w projekcie `Benchmark`.
+8. Dodajemy referencję do biblioteki `Parser_v_5_0` w projekcie `Parsers.UnitTests`.
+9. Nową wersję parsera (`Parser_v_5_0`) dodajemy do przypadków testowych w testach jednostkowych. Przechodzimy do klasy `TestCasesStore` oraz w tablicy `Transformators` dodajemy naszą nową wersję parsera, analogicznie jak dla innych parserów.
+
+```c#
+public class TestCasesStore
+{
+ public static readonly ISubject<ByteString, CtiEvent>[] Transformators = 
+ {
+  new v_0_1.CtiTransformator(new v_0_1.CtiParser()),
+  new v_0_2.CtiTransformator(new v_0_2.CtiParser()),
+  new v_0_3.CtiTransformator(new v_0_3.CtiParser()),
+  new v_0_4.CtiTransformator(new v_0_4.CtiParser()),
+  new v_0_5.CtiTransformator(new v_0_5.CtiParser()),
+  new v_0_6.CtiTransformator(new v_0_6.CtiParser()),
+  new v_0_7.CtiTransformator(new v_0_7.CtiParser()),
+  new v_0_8.CtiTransformator(new v_0_8.CtiParser()),
+  new v_0_9.CtiTransformator(new v_0_9.CtiParser()),
+  new v_0_10.CtiTransformator(new v_0_10.CtiParser()),
+  new v_0_11.CtiTransformator(new v_0_11.CtiParser()),
+  new v_0_12.CtiTransformator(new v_0_12.CtiParser()),
+  new v_1_1.CtiTransformator(new v_1_1.ByteBuffer(), new v_1_1.CtiParser()),
+  new v_1_2.CtiTransformator(new v_1_2.ByteBuffer(), new v_1_2.CtiParser()),
+  new v_2_0.CtiTransformator(),
+  new v_3_0.CtiTransformator(new v_3_0.ByteBuffer(), new v_3_0.CtiParser()),
+  new v_4_0.CtiTransformator(new v_4_0.ByteBuffer(), new v_4_0.CtiParser()),
+  new v_4_1.CtiTransformator(new v_4_1.ByteBuffer(), new v_4_1.CtiParser()),
+  new v_4_2.CtiTransformator(new v_4_2.ByteBuffer(), new v_4_2.CtiParser()),
+  new v_5_0.CtiTransformator(new v_5_0.ByteBuffer(), new v_5_0.CtiParser()),
+ };
+ // ...
+}
+```
+10. Odpalamy testy jednostkowe. Wszystko powinno być zielone. Od tego momentu możemy modyfikować naszą nową wersję parsera i sprawdzać czy testy nadal są zielone.
+11. Dodajemy naszą nową wersję parsera do testów wydajności. Otwieramy klasę `CtiTransformatorTester` i dodajemy nową prywatną właściwość analogicznie jak w linii 39 poniżej.
+
 
 

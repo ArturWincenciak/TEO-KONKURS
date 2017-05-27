@@ -14,6 +14,23 @@ Projekt zawiera zestaw testów jednostkowych, które pilnują czy kolejne coraz 
 
 **Wygrywa ten kto napisze najszybszą wersję parsowania. Konkurs trwa do 18-06-2017 do 23:59:59.999. Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu.**
 
+** Motywacja **
+
+Niedawno natrafiłem na projekt `DotNetBenchmark`, który mnie zachwycił. Chcąc się nim pobawić wymyślałem sobie pretekst do tych zabaw - tym pretekstem jest właśnie temat tego konku.
+ 
+Napisałem kilka wersji parsera eksperymentując z kodem. Robiłem niewielkie zmiany i odpalałem testy po czym sprawdzałem czy wydajność się poprawiła czy spadła. Nadal jednak jestem przekonany, że można osiągnąć większą wydajność, ale mi się już pomysły skończyły.
+ 
+Śledząc kolejne wersje tych parserów będziecie mogli zobaczyć na żywo, na konkretnym przypadku:
+- jak bardzo nie wydajny jest regex
+- czy i o ile jest szybszy `switch` od `if`
+- jakie metody `linq` są wolne i jak bardzo potrafią być wolne
+- czy `StringBuilder` naprawdę jest szybszy od zwykłego `string`
+- zarządzanie pamięcią na własną rękę tak aby `GC` miał jak najmniej pracy.
+ 
+Będziecie mogli również zobaczyć jak się konfiguruje i odpala `DotNetBenchmark` oraz podejście do testów jednostkowych, które testują wszystkie wersje bibliotek parsera w jednym teście.
+ 
+Na tego, któremu uda się napisać szybszą wersję parsera oprócz otrzymania nagród rzeczowych zostanie odkryty uznaniem w naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
+
 ## Jak taki ciąg bajtów wygląda, jakie ma cechy? Jakie obiekty chcemy uzyskać w wyniku parsowania?
 
 Wspomniany ciąg bajtów po zamianie na `string` wygląda przykładowo tak:

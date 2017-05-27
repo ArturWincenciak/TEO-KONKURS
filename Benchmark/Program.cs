@@ -25,7 +25,7 @@ namespace BenchmarkTeoVincent
         static void CopyResultsToHistory()
         {
             string folderName = DateTime.Now.ToString("yy_MM_dd__HH_mm_ss");
-            DirectoryCopy(@".\BenchmarkDotNet.Artifacts\results", $@".\TestResultsHistory\{folderName}", true);
+            DirectoryCopy(@".\BenchmarkDotNet.Artifacts\results", $@"..\..\..\TestsHistory\{folderName}", true);
         }
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -42,7 +42,8 @@ namespace BenchmarkTeoVincent
             DirectoryInfo[] dirs = dir.GetDirectories();
             if (!Directory.Exists(destDirName))
             {
-                Directory.CreateDirectory(destDirName);
+                DirectoryInfo info = Directory.CreateDirectory(destDirName);
+                Console.WriteLine($"Copied results to {info.FullName}.");
             }
 
             FileInfo[] files = dir.GetFiles();

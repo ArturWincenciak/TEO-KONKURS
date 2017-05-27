@@ -26,11 +26,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 
-# Wynik buildu Naszego
-/Assemblies/*
-/Assemblies/IvrServerModuleLibs/*.dll
-/_PiriosBuild/*
-
 # Visual Studio 2015 cache/options directory
 .vs/
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>CtiTransformatorTester</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.10.5, OS=Windows 10.0.15063
+Processor=Intel Core i7-4710MQ CPU 2.50GHz (Haswell), ProcessorCount=8
+Frequency=2435773 Hz, Resolution=410.5473 ns, Timer=TSC
+  [Host]            : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.7.2046.0
+  LegacyJit-Clr-X86 : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.7.2046.0
+</code></pre>
+<pre><code>Job=LegacyJit-Clr-X86  Jit=LegacyJit  Platform=X86  
+Runtime=Clr  
+</code></pre>
+
+<table>
+<thead><tr><th>             Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Scaled</th><th>Gen 0</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Test_v_0_1_transformator</td><td>37.340 ms</td><td>0.1889 ms</td><td>0.1767 ms</td><td>1.00</td><td>4808.3333</td><td>16.31 MB</td>
+</tr><tr><td>Test_v_0_2_transformator</td><td>11.251 ms</td><td>0.0230 ms</td><td>0.0215 ms</td><td>0.30</td><td>2396.8750</td><td>7.69 MB</td>
+</tr><tr><td>Test_v_0_3_transformator</td><td>9.764 ms</td><td>0.0441 ms</td><td>0.0412 ms</td><td>0.26</td><td>1835.4167</td><td>5.91 MB</td>
+</tr><tr><td>Test_v_0_4_transformator</td><td>9.736 ms</td><td>0.0467 ms</td><td>0.0436 ms</td><td>0.26</td><td>1843.7500</td><td>5.91 MB</td>
+</tr><tr><td>Test_v_0_5_transformator</td><td>5.516 ms</td><td>0.0123 ms</td><td>0.0115 ms</td><td>0.15</td><td>1543.7500</td><td>4.88 MB</td>
+</tr><tr><td>Test_v_0_6_transformator</td><td>5.184 ms</td><td>0.0278 ms</td><td>0.0260 ms</td><td>0.14</td><td>2010.4167</td><td>6.29 MB</td>
+</tr><tr><td>Test_v_0_7_transformator</td><td>3.795 ms</td><td>0.0134 ms</td><td>0.0126 ms</td><td>0.10</td><td>1990.6250</td><td>6.1 MB</td>
+</tr><tr><td>Test_v_0_8_transformator</td><td>3.298 ms</td><td>0.0122 ms</td><td>0.0114 ms</td><td>0.09</td><td>1402.8646</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_0_9_transformator</td><td>2.458 ms</td><td>0.0078 ms</td><td>0.0073 ms</td><td>0.07</td><td>1404.9479</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_0_10_transformator</td><td>2.439 ms</td><td>0.0116 ms</td><td>0.0108 ms</td><td>0.07</td><td>1403.9063</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_0_11_transformator</td><td>2.434 ms</td><td>0.0138 ms</td><td>0.0122 ms</td><td>0.07</td><td>1399.7396</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_0_12_transformator</td><td>2.564 ms</td><td>0.0132 ms</td><td>0.0124 ms</td><td>0.07</td><td>1529.1667</td><td>4.69 MB</td>
+</tr><tr><td>Test_v_1_1_transformator</td><td>2.391 ms</td><td>0.0085 ms</td><td>0.0080 ms</td><td>0.06</td><td>1401.8229</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_1_2_transformator</td><td>2.422 ms</td><td>0.0084 ms</td><td>0.0079 ms</td><td>0.06</td><td>1401.8229</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_2_0_transformator</td><td>2.947 ms</td><td>0.0086 ms</td><td>0.0080 ms</td><td>0.08</td><td>1397.6563</td><td>4.33 MB</td>
+</tr><tr><td>Test_v_3_0_transformator</td><td>3.412 ms</td><td>0.0105 ms</td><td>0.0098 ms</td><td>0.09</td><td>1114.0625</td><td>3.46 MB</td>
+</tr><tr><td>Test_v_4_0_transformator</td><td>4.989 ms</td><td>0.0183 ms</td><td>0.0171 ms</td><td>0.13</td><td>930.7292</td><td>3.04 MB</td>
+</tr><tr><td>Test_v_4_1_transformator</td><td>5.221 ms</td><td>0.0205 ms</td><td>0.0191 ms</td><td>0.14</td><td>941.1458</td><td>3.04 MB</td>
+</tr><tr><td>Test_v_4_2_transformator</td><td>3.932 ms</td><td>0.0200 ms</td><td>0.0187 ms</td><td>0.11</td><td>714.5833</td><td>2.35 MB</td>
+</tr></tbody></table>
+</body>
+</html>

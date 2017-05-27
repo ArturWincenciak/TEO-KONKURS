@@ -726,8 +726,8 @@ public static class CtiProtocol
     // ...
 }
 ```
-
 Wydaność się nie poprawiła - jak widać.
+
 Method | Mean | Error | StdDev | Median | Scaled | Gen 0 | Allocated
 --- | --- | --- | --- | --- |--- | --- | ---
 Test_v_0_11_transformator	| 2.715 ms	| 0.0788 ms	| 0.2322 ms	| 2.671 ms	| 0.07	| 1434.5815	| 4.33 MB

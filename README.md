@@ -324,7 +324,7 @@ public static void Test_v_5_0_transformator()
 ```
 14. Dokonujemy optymalizacji w naszej nowej wersji parsera. Gdy jesteśmy pewni, że jest szybciej kompilujemy projekt w trybie `release`, odpalamy aplikację konsolową będącą wynikiem kompilacji projektu `Benchmark` i sprawdzamy wyniki. 
 15. Wyniki pojawiają się w folderze `.\TeoVincentParser\Benchmark\bin\Release\BenchmarkDotNet.Artifacts\results`.
-16. Jeśli chcemy odpalić te same testy wiele razy, odejść od komputera i wrócić po wyników za kilka godzin, to jest to możliwe ponieważ  wyniki testów są kopiowane do folderu z historią wyników `.\TeoVincentParser\Benchmark\bin\Release\TestResultsHistory`. Wystarczy w metodzie `Main` w klasie `Program` ustawić odpowiednią wartość w pętli (np: `for (int i = 0; i < 10; i++)`).
+16. Jeśli chcemy odpalić te same testy wiele razy, odejść od komputera i wrócić po wyników za kilka godzin, to jest to możliwe ponieważ  wyniki testów są kopiowane do folderu z historią wyników `..\..\..\TestsHistory`. Wystarczy w metodzie `Main` w klasie `Program` ustawić odpowiednią wartość w pętli (np: `for (int i = 0; i < 10; i++)`).
  
 ## Interfejs parsera
  

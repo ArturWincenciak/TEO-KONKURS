@@ -29,7 +29,7 @@ Napisałem kilka wersji parsera eksperymentując z kodem. Robiłem niewielkie zm
  
 Będziecie mogli również zobaczyć jak się konfiguruje i odpala `DotNetBenchmark` oraz podejście do testów jednostkowych, które testują wszystkie wersje bibliotek parsera w jednym teście.
  
-Na tego, któremu uda się napisać szybszą wersję parsera oprócz otrzymania nagród rzeczowych zostanie odkryty uznaniem w naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
+Na tego, któremu uda się napisać szybszą wersję parsera oprócz otrzymania nagród rzeczowych zostanie okryty uznaniem w naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
  
 > Obecny poziom wydajności dla projektu produkcyjnego już dawno jest zadowalający. Tutaj dalsze optymalizacji mają charakter rozrywki.
  

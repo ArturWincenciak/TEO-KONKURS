@@ -857,6 +857,6 @@ Test_v_4_2_transformator	| 3.911 ms	| 0.0166 ms	| 0.0155 ms	| 3.909 ms	| 0.1	| 7
  
 ### To już koniec. 
  
-### P.S. Jeśli ktoś zrefaktoryzuje obecny kod, nie pogarszajając wydajności, do wersji która jest bardziej czytelna otrzyma ekstra jedną setkę wiśniówki.
+### P.S. Jeśli ktoś zrefaktoryzuje obecny kod, nie pogarszając wydajności, do wersji która jest bardziej czytelna otrzyma ekstra jedną setkę wiśniówki.
 
 ### P.S. Jeśli coś źle opisałem, lub niejasno, lub macie pytania to zakładajcie `Issue` lub róbcie `pull request`.

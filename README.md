@@ -25,7 +25,8 @@ Napisałem kilka wersji parsera eksperymentując z kodem. Robiłem niewielkie zm
 - czy i o ile jest szybszy `switch` od `if`
 - jakie metody `linq` są wolne i jak bardzo potrafią być wolne
 - czy `StringBuilder` naprawdę jest szybszy od zwykłego `string`
-- zarządzanie pamięcią na własną rękę tak aby `GC` miał jak najmniej pracy.
+- zarządzanie pamięcią na własną rękę tak aby `GC` miał jak najmniej pracy
+- czy try {} catch {} ma wpływ na wydajność.
  
 Będziecie mogli również zobaczyć jak się konfiguruje i odpala `DotNetBenchmark` oraz podejście do testów jednostkowych, które testują wszystkie wersje bibliotek parsera w jednym teście.
  

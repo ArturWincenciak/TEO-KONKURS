@@ -40,21 +40,18 @@
       <HintPath>..\packages\Akka.1.2.0\lib\net45\Akka.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="BenchmarkDotNet, Version=0.10.5.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
-      <HintPath>..\packages\BenchmarkDotNet.0.10.5\lib\net46\BenchmarkDotNet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BenchmarkDotNet, Version=0.10.6.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
+      <HintPath>..\packages\BenchmarkDotNet.0.10.6\lib\net46\BenchmarkDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="BenchmarkDotNet.Core, Version=0.10.5.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
-      <HintPath>..\packages\BenchmarkDotNet.Core.0.10.5\lib\net46\BenchmarkDotNet.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BenchmarkDotNet.Core, Version=0.10.6.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
+      <HintPath>..\packages\BenchmarkDotNet.Core.0.10.6\lib\net46\BenchmarkDotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="BenchmarkDotNet.Diagnostics.Windows, Version=0.10.5.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
       <HintPath>..\packages\BenchmarkDotNet.Diagnostics.Windows.0.10.5\lib\net46\BenchmarkDotNet.Diagnostics.Windows.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="BenchmarkDotNet.Toolchains.Roslyn, Version=0.10.5.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
-      <HintPath>..\packages\BenchmarkDotNet.Toolchains.Roslyn.0.10.5\lib\net46\BenchmarkDotNet.Toolchains.Roslyn.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BenchmarkDotNet.Toolchains.Roslyn, Version=0.10.6.0, Culture=neutral, PublicKeyToken=aa0ca2f9092cefc4, processorArchitecture=MSIL">
+      <HintPath>..\packages\BenchmarkDotNet.Toolchains.Roslyn.0.10.6\lib\net46\BenchmarkDotNet.Toolchains.Roslyn.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.0.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
@@ -205,7 +202,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="_TraceEventProgrammersGuide.docx" />
   </ItemGroup>

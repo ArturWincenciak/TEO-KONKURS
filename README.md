@@ -6,7 +6,7 @@ Tematem konkursu jest zoptymalizowanie procesu zamiany ciągu bajtów na obiekty
  
 Poprzez socket z centrali telekomunikacyjnej przychodzi ciąg bajtów, który zawiera informacje o tym jakie zdarzenia wystąpiły w tej centrali. Chodzi o to aby w jak najbardziej optymalny sposób (jak najszybciej) zamienić te bajty na obiekty.
  
-Do mierzenia wydajności wykorzystujemy DotNetBenchmark, który jest dołączony i odpowiednio skonfigurowany w projekcie.
+Do mierzenia wydajności wykorzystujemy `BenchmarkDotNet`, który jest dołączony i odpowiednio skonfigurowany w projekcie.
  
 Projekt zawiera już kilka wersji z moimi próbami optymalizacji. Podjąłem nawet próbę zarządzania pamięcią na własną rękę ale próba ta spaliła na panewkach. Osiągnąłem bardzo małe zużycie pamięci ale nie przełożyło się to na szybkość obliczeń. Czuję jednak, że da się jeszcze to lepiej zoptymalizować. Na tą chwilę nie wiem jak. Na każdego, któremu uda się poprawić wydajność, oprócz nagród rzeczowych, spadnie szacunek ludzi naszej społeczności.
  
@@ -16,7 +16,7 @@ Projekt zawiera zestaw testów jednostkowych, które pilnują czy kolejne coraz 
  
 ## Motywacja
  
-Niedawno natrafiłem na projekt `DotNetBenchmark`, który mnie zachwycił. Chcąc się nim pobawić wymyślałem sobie pretekst do tych zabaw - tym pretekstem jest właśnie temat tego konkursu.
+Niedawno natrafiłem na projekt `BenchmarkDotNet`, który mnie zachwycił. Chcąc się nim pobawić wymyślałem sobie pretekst do tych zabaw - tym pretekstem jest właśnie temat tego konkursu.
  
 Napisałem kilka wersji parsera eksperymentując z kodem. Robiłem niewielkie zmiany i odpalałem testy po czym sprawdzałem czy wydajność się poprawiła czy spadła. Nadal jednak jestem przekonany, że można osiągnąć większą wydajność, ale mi się już pomysły skończyły.
  
@@ -28,7 +28,7 @@ Napisałem kilka wersji parsera eksperymentując z kodem. Robiłem niewielkie zm
 - zarządzanie pamięcią na własną rękę tak aby `GC` miał jak najmniej pracy
 - czy try {} catch {} ma wpływ na wydajność.
  
-Będziecie mogli również zobaczyć jak się konfiguruje i odpala `DotNetBenchmark` oraz podejście do testów jednostkowych, które testują wszystkie wersje bibliotek parsera w jednym teście.
+Będziecie mogli również zobaczyć jak się konfiguruje i odpala `BenchmarkDotNet` oraz podejście do testów jednostkowych, które testują wszystkie wersje bibliotek parsera w jednym teście.
  
 Na tego, któremu uda się napisać szybszą wersję parsera oprócz otrzymania nagród rzeczowych zostanie okryty uznaniem w naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
  
@@ -388,7 +388,7 @@ Test_v_4_2_transformator	| 3.911 ms	| 0.0166 ms	| 0.0155 ms	| 3.909 ms	| 0.1	| 7
  
 ## Opis kolejnych wersji parsera
  
-Z pierwszej wersji nie jestem zbytnio dumny. Jest to pierwsza wersja, która uknuła mi się w głowie, którą byłem wstanie bardzo szybko zaimplementować. Wersja ta ma wiele błędów pod względem wydajności i nie tylko. Implementując kolejne wersje sukcesywnie ulepszyłem te wersje mając przy tym dużą frajdę z uruchamiania `DotNetBenchmarka`.
+Z pierwszej wersji nie jestem zbytnio dumny. Jest to pierwsza wersja, która uknuła mi się w głowie, którą byłem wstanie bardzo szybko zaimplementować. Wersja ta ma wiele błędów pod względem wydajności i nie tylko. Implementując kolejne wersje sukcesywnie ulepszyłem te wersje mając przy tym dużą frajdę z uruchamiania `BenchmarkDotNet`a.
  
 O.K. To po tym wstępie zaczynamy. Przechodzimy do projektu `Parser_v_0_1`.
  

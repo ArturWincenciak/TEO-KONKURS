@@ -10,7 +10,6 @@ namespace BenchmarkTeoVincent
     {
         static void Main(string[] args)
         {
-            // change for test CI with VSTS
             //for (int i = 0; i < 10; i++) // uncomment and fire up the same test many times
             {
                 Summary summary = BenchmarkRunner.Run<CtiTransformatorTester>();

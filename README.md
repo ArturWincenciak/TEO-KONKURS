@@ -1,4 +1,4 @@
-**Visual Studio Team Services** ![Build & Test](https://mseng.visualstudio.com/_apis/public/build/definitions/ba046b5e-0e7c-4c43-9005-af50b7cd203a/21/badge?branch=master)
+**Visual Studio Team Services** ![Build & Test](https://teovincentcom.visualstudio.com/_apis/public/build/definitions/d842e61e-45f6-4567-b4ee-18bf25c9f659/21/badge)
 
 # TEO-KONKURS
  

@@ -26,11 +26,11 @@ Napisałem kilka wersji parsera eksperymentując z kodem. Robiłem niewielkie zm
 - jakie metody `linq` są wolne i jak bardzo potrafią być wolne
 - czy `StringBuilder` naprawdę jest szybszy od zwykłego `string`
 - zarządzanie pamięcią na własną rękę tak aby `GC` miał jak najmniej pracy
-- czy try {} catch {} ma wpływ na wydajność.
+- czy `try {} catch {}` ma wpływ na wydajność.
  
 Będziecie mogli również zobaczyć jak się konfiguruje i odpala `BenchmarkDotNet` oraz podejście do testów jednostkowych, które testują wszystkie wersje bibliotek parsera w jednym teście.
  
-Na tego, któremu uda się napisać szybszą wersję parsera oprócz otrzymania nagród rzeczowych zostanie okryty uznaniem w naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
+Na każdego, któremu uda się poprawić wydajność, oprócz nagród rzeczowych, spadnie szacunek ludzi naszej społeczności, a ja z pewnością nauczę się czegoś nowego.
  
 > Obecny poziom wydajności dla projektu produkcyjnego już dawno jest zadowalający. Tutaj dalsze optymalizacji mają charakter rozrywki.
  
@@ -346,7 +346,7 @@ Polecam sobie sprawdzić jakie metody oferuje ten typ. Widać tutaj w jaki spos�
  
 Obecnie najszybszą wersja parsera jest `Parser_v_1_2`. Tą wersję (dopóki nie pojawi się szybsza) należy traktować jako wzorcową podczas porównywania z własnymi wynikami. Wersję tą można skopiować i optymalizować, lub wogóle tam nie zaglądać aby się nie niepotrzebnie inspirować tym rozwiązaniem.
  
-> Tak się składa, że równocześnie wersja ta w bardzo fajny sposób enkapsuluje odpowiedzialności w klasach - jest zarazem wydajnie i SOLID. Można tutaj zauważyć podejście reaktywne, w którym mamy nieskończoną kolekcję danych, które przepływając przez ByteBuffer oraz CtiParser transformują do innej nieskończonej kolekcji danych.
+> Tak się składa, że równocześnie wersja ta w bardzo fajny sposób enkapsuluje odpowiedzialności w klasach - jest zarazem wydajnie i SOLID. Można tutaj zauważyć podejście reaktywne, w którym mamy nieskończoną kolekcję danych, które przepływając przez `ByteBuffer` oraz `CtiParser` transformują do innej nieskończonej kolekcji danych.
  
 > Muszę dodać że może pojawić się lepsza wersja - czego sobie i Wam życzę. Będzie ekstra setka wiśniówki za taką implementację.
  

@@ -11,6 +11,10 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+#RiderC#
+.idea/
+*.*.iml
+
 # User-specific files (Extensions)
 *.sln.startup.json
 

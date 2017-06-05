@@ -1,3 +1,5 @@
+|![Win](docs/res/win_med.png) **Windows**|![Build & Test](https://mseng.visualstudio.com/_apis/public/build/definitions/b924d696-3eae-4116-8443-9a18392d8544/1474/badge?branch=master)| 
+
 # TEO-KONKURS
  
 ## Nagroda: Do zwycięzcy wyślę ładnie zapakowane 0.7 Jack'a Daniels'a i dziesięć setek Wiśniówki Lubelskiej

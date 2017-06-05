@@ -1,2 +1,3 @@
 language: c#
 solution: TeoVincentParser.sln
+os: windows

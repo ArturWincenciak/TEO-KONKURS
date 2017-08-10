@@ -13,9 +13,11 @@ Do mierzenia wydajności wykorzystujemy `BenchmarkDotNet`, który jest dołączo
  
 Projekt zawiera już kilka wersji z moimi próbami optymalizacji. Podjąłem nawet próbę zarządzania pamięcią na własną rękę ale próba ta spaliła na panewkach. Osiągnąłem bardzo małe zużycie pamięci ale nie przełożyło się to na szybkość obliczeń. Czuję jednak, że da się jeszcze to lepiej zoptymalizować. Na tą chwilę nie wiem jak. Na każdego, któremu uda się poprawić wydajność, oprócz nagród rzeczowych, spadnie szacunek ludzi naszej społeczności.
  
-Projekt zawiera zestaw testów jednostkowych, które pilnują czy kolejne coraz to optymalniejsze wersje nadal poprawnie wykonują parsowanie.
+Projekt zawiera zestaw testów jednostkowych, które pilnują czy kolejne coraz to bardziej optymalne wersje nadal poprawnie wykonują parsowanie.
  
-**Wygrywa ten kto napisze najszybszą wersję parsowania. Konkurs trwa do 18-06-2017 do 23:59:59.999. Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu.**
+**Wygrywa ten kto napisze najszybszą wersję parsowania. Konkurs trwa do 31-12-2018 do 23:59:59.999. Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu.**
+
+**Nagroda zwycięscy zostaje przyznana jeśli po pull request'a z najszybszą wersją przez kolejne 30 dni nikt nie nadeśle szybszej wersji wówczas.**
  
 ## Motywacja
  

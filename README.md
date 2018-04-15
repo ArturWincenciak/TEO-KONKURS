@@ -17,7 +17,7 @@ Projekt zawiera zestaw testów jednostkowych, które pilnują czy kolejne coraz 
 
 ## Zasady wygranej
  
-**Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu. Do mierzenia wydajności wykorzystany jest BenchmarkDotNet.**
+**Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu.**
 
 **Nagroda zwycięscy zostaje przyznana wówczas gdy po `pull request` z najszybszą wersją przez kolejne 30 dni nikt nie nadeśle szybszej wersji.**
  

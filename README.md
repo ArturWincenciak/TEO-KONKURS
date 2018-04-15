@@ -17,9 +17,9 @@ Projekt zawiera zestaw testów jednostkowych, które pilnują czy kolejne coraz 
 
 ## Zasady wygranej
  
-**Wygrywa ten kto napisze najszybszą wersję parsowania. Konkurs trwa do 31-12-2018 do 23:59:59.999. Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu.**
+**Wersja uznana jest za najszybszą jeśli od poprzedniej najszybszej wersji będzie szybsza o 5% w każdym z 10 powtórzeń testu. Do mierzenia wydajności wykorzystany jest BenchmarkDotNet.**
 
-**Konkurs może skończyć się wcześniej. Nagroda zwycięscy zostaje przyznana jeśli po `pull request` z najszybszą wersją przez kolejne 30 dni nikt nie nadeśle szybszej wersji wówczas.**
+**Nagroda zwycięscy zostaje przyznana wówczas gdy po `pull request` z najszybszą wersją przez kolejne 30 dni nikt nie nadeśle szybszej wersji.**
  
 ## Motywacja
  
